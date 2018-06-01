@@ -2,6 +2,10 @@
 
 namespace Wildgame\Http;
 
+use Wildgame\Http\Input;
+use Wildgame\Http\Session;
+use Wildgame\Http\Uri;
+
 /**
  * Abstraction layer for HTTP Requests. Stores the relevant data in an easily
  * manipulatable and mockable way without affecting the original Request.
@@ -12,12 +16,68 @@ namespace Wildgame\Http;
 class Request {
 
     /**
+     * @var string
+     */
+    private $method;
+
+    /**
+     * @var bool
+     */
+    private $ajax;
+
+    /**
+     * @var \Wildgame\Http\Uri
+     */
+    private $uri;
+
+    /**
+     * @var \Wildgame\Http\Input
+     */
+    private $input;
+
+    /**
+     * @var \Wildgame\Http\Session
+     */
+    private $session;
+
+    /**
+     * @param   string                  $method
+     * @param   bool                    $ajax
+     * @param   \Wildgame\Http\Uri      $uri
+     * @param   \Wildgame\Http\Input    $input
+     * @param   \Wildgame\Http\Session  $session
+     */
+    public function __construct(
+        string $method,
+        bool $ajax,
+        Uri $uri,
+        Input $input,
+        Session $session
+    ) {
+        $this->method = $method;
+        $this->ajax = $ajax;
+        $this->uri = $uri;
+        $this->input = $input;
+        $this->session = $session;
+    }
+
+    /**
+     * Returns the original URI object instead of the URI string.
+     * For retrieving just the string use Request::uri().
+     *
+     * @return  \Wildgame\Http\Uri
+     */
+    public function getUri() : Uri {
+        return $this->uri;
+    }
+
+    /**
      * Returns the HTTP Request method in only capital letters. (e.g 'GET')
      *
      * @return  string
      */
     public function method() : string {
-        // Add code here
+        return strtoupper($this->method);
     }
 
     /**
@@ -26,7 +86,7 @@ class Request {
      * @return  bool
      */
     public function ajax() : bool {
-        // Add code here
+        return $this->ajax;
     }
 
     /**
