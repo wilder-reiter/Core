@@ -12,6 +12,33 @@ namespace Wildgame\Http;
 class Request {
 
     /**
+     * Returns the HTTP Request method in only capital letters. (e.g 'GET')
+     *
+     * @return  string
+     */
+    public function method() : string {
+        // Add code here
+    }
+
+    /**
+     * Returns true if the current HTTP Request is an AJAX request.
+     *
+     * @return  bool
+     */
+    public function ajax() : bool {
+        // Add code here
+    }
+
+    /**
+     * Returns the Request URI (e.g. '/horse/training/1') as a string
+     *
+     * @return  string
+     */
+    public function uri() : string {
+        // Add code here
+    }
+
+    /**
      * Returns a single $_GET value that is identified by the first parameter
      * passed to the method.
      *
@@ -40,6 +67,19 @@ class Request {
      * @return  mixed
      */
     public function post(string $name = null, $default = null) {
+        // Add code here
+    }
+
+    /**
+     * Works as both Request::get() and Request::post() but returns $_SESSION
+     * values instead.
+     *
+     * @param   string  $name
+     * @param   mixed   $default
+     *
+     * @return  mixed
+     */
+    public function session(string $name = null, $default = null) {
         // Add code here
     }
 }

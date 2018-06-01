@@ -23,6 +23,8 @@ use Wildgame\Utility\Container;
  */
 class Wildgame {
 
+    const VERSION = '0.0.1';
+
     /**
      * @var \Wildgame\Http\Request
      */
@@ -39,6 +41,21 @@ class Wildgame {
     private $container;
 
     /**
+     * @var array
+     */
+    private $realms = [];
+
+    /**
+     * @var array
+     */
+    private $tokens = [
+        ':alpha' => '[A-Za-z]+',
+        ':num' => '[0-9]+',
+        ':alphanum' => '[A-Za-z0-9]+',
+        '' => '[0-9]+'
+    ];
+
+    /**
      * @param   \Wildgame\Http\Request      $request
      * @param   \Wildgame\Http\Response     $response
      * @param   \Wildgame\Http\Container    $container
@@ -51,6 +68,38 @@ class Wildgame {
         $this->request = $request;
         $this->response = $response;
         $this->container = $container;
+    }
+
+    /**
+     * Realms are variables for common route patterns (e.g. 'horse' in
+     * '/horse/training/1', '/horse/profil/1'). These variables will be added
+     * to the route pattern instead of hardcoding it into the system.
+     *
+     * Example: '[horse]/training/{id}', '[horse]/training/{id}'
+     *
+     * @param   string  $name
+     * @param   string  $pattern
+     *
+     * @return  void
+     */
+    public function realm(string $name, string $pattern) {
+        // Add code here
+    }
+
+    /**
+     * Adds or modifies route parameter tokens. Parameter tokens are flags for
+     * checking a parameter against a regular expression. The flag will be added
+     * after the parameter name with a ':'.
+     *
+     * Example: '[horse]/training/{id:num}'
+     *
+     * @param   string  $name
+     * @param   string  $expression
+     *
+     * @return  void
+     */
+    public function token(string $name, string $expression) {
+        // Add code here
     }
 
     /**
