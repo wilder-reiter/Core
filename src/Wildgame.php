@@ -83,7 +83,7 @@ class Wildgame {
      * @return  void
      */
     public function realm(string $name, string $pattern) {
-        // Add code here
+        $this->realms[$name] = $pattern;
     }
 
     /**
@@ -99,7 +99,7 @@ class Wildgame {
      * @return  void
      */
     public function token(string $name, string $expression) {
-        // Add code here
+        $this->tokens[$name] = $expression;
     }
 
     /**
