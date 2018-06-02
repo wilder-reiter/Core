@@ -72,7 +72,7 @@ $app->get('/', 'PagesController@showHome');
 // Guest pages
 $app->get('/preview', 'PagesController@showPreview');
 $app->get('/support', 'PagesController@showSupport');
-$app->get('/news/?{page:num}', 'PagesController@showNews');
+$app->get('/news', 'PagesController@showNews');
 
 // Footer pages
 $app->get('/privacy', 'PagesController@showPrivacy');

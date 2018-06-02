@@ -163,4 +163,13 @@ class Wildgame {
     public function notFoundError(string $action) {
         // Add code here
     }
+
+    /**
+     * Renders and sends a HTTP Response.
+     *
+     * @return  void
+     */
+    public function respond() {
+        // Add code here
+    }
 }
