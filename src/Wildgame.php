@@ -141,8 +141,8 @@ class Wildgame {
     }
 
     /**
-     * Defines the action to be taken in case no matching Route was found or a
-     * 404 Not Found Response has been sent.
+     * Defines the action to be taken in case the matching Controller did
+     * return an invalid HTTP Response or an 500 Internal Server Error.
      *
      * @param   string  $action
      *
@@ -153,8 +153,8 @@ class Wildgame {
     }
 
     /**
-     * Defines the action to be taken in case the matching Controller did
-     * return an invalid HTTP Response or an 500 Internal Server Error.
+     * Defines the action to be taken in case no matching Route was found or a
+     * 404 Not Found Response has been sent.
      *
      * @param   string  $action
      *
@@ -165,11 +165,20 @@ class Wildgame {
     }
 
     /**
-     * Renders and sends a HTTP Response.
+     * Renders and sends an HTTP Response.
      *
      * @return  void
      */
     public function respond() {
+        // Add code here
+    }
+
+    /**
+     * Return the Response object without directly sending a response
+     *
+     * @return  \Wildgame\Http\Response
+     */
+    public function getResponse() : Response {
         // Add code here
     }
 }

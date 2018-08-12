@@ -92,6 +92,8 @@ class Response {
     }
 
     /**
+     * Returns the HTTP protocol version (e.g. HTTP 1.0, 1.1, 2.0).
+     *
      * @return  string
      */
     public function getProtocol() : string {
@@ -99,6 +101,8 @@ class Response {
     }
 
     /**
+     * Returns the HTTP Response code (e.g. 200, 404 or 500).
+     *
      * @return  int
      */
     public function getCode() : int {
@@ -106,6 +110,9 @@ class Response {
     }
 
     /**
+     * Returns the correspending status message to a Response code (e.g.
+     * 200 => OK, 404 => Not Found, 500 => Internal Server Error).
+     *
      * @return  int
      */
     public function getMessage() : string {
@@ -113,6 +120,8 @@ class Response {
     }
 
     /**
+     * Get the document mime type (e.g. text/html, application/json, text/css).
+     *
      * @return  string
      */
     public function getType() : string {

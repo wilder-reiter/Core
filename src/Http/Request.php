@@ -141,13 +141,6 @@ class Request {
     }
 
     /**
-     * @return  \Wildgame\Http\Input
-     */
-    public function getInput() : Input {
-        return $this->input;
-    }
-
-    /**
      * Returns the HTTP Request method in only capital letters. (e.g 'GET')
      *
      * @return  string
@@ -207,8 +200,8 @@ class Request {
     }
 
     /**
-     * Works as both Request::get() and Request::post() but returns $_SESSION
-     * values instead.
+     * Works the same as both Request::get() and Request::post() but returns
+     * $_SESSION values instead.
      *
      * @param   string  $name
      * @param   mixed   $default
