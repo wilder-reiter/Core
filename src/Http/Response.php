@@ -14,7 +14,7 @@ class Response {
     /**
      * @var string
      */
-    private $protocol;
+    private $protocol = 'HTTP/1.1';
 
     /**
      * @var array
@@ -34,8 +34,10 @@ class Response {
      * @var array
      */
     public static $mimeTypes = [
+        'css' => 'text/css',
         'html' => 'text/html',
-        'json' => 'application/json'
+        'json' => 'application/json',
+        'text' => 'text/plain'
     ];
 
     /**
@@ -69,7 +71,7 @@ class Response {
      *
      * @return  void
      */
-    public function setHtmlBody(string $body) {
+    public function setTextBody(string $body) {
         $this->body = $body;
     }
 
@@ -123,8 +125,23 @@ class Response {
      *
      * @return  \Wildgame\Http\Response
      */
-    public function withBody(string $body) : Request {
-        // Add code here
+    public function withTextBody(string $body) : Request
+    {
+        $clone = clone $this;
+        $clone->setTextBody($body);
+        return $clone;
+    }
+
+    /**
+     * @param   array   $body
+     *
+     * @return  \Wildgame\Http\Response
+     */
+    public function withJsonBody(array $body) : Request
+    {
+        $clone = clone $this;
+        $clone->setJsonBody($body);
+        return $clone;
     }
 
     /**
