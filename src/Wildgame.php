@@ -165,7 +165,8 @@ class Wildgame {
     }
 
     /**
-     * Renders and sends an HTTP Response.
+    * Runs the router and either sends an HTTP Response from a matched Route
+    * or either the notFound or serverError fallback Route.
      *
      * @return  void
      */

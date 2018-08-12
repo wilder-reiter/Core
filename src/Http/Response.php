@@ -56,12 +56,42 @@ class Response {
     }
 
     /**
+     * @param   string  $type
+     *
+     * @return  void
+     */
+    public function setType(string $type) {
+        $this->type = self::$mimeTypes[$type];
+    }
+
+    /**
+     * @param   string  $body
+     *
+     * @return  void
+     */
+    public function setHtmlBody(string $body) {
+        $this->body = $body;
+    }
+
+    /**
+     * @param   array   $body
+     *
+     * @return  void
+     */
+    public function setJsonBody(array $body) {
+        $this->body = json_encode($body);
+    }
+
+    /**
      * @param   string  $protocol
      *
      * @return  \Wildgame\Http\Response
      */
-    public function withProtocol(string $protocol) : Response {
-        // Add code here
+    public function withProtocol(string $protocol) : Response
+    {
+        $clone = clone $this;
+        $clone->protocol = $protocol;
+        return $clone;
     }
 
     /**
@@ -69,8 +99,11 @@ class Response {
      *
      * @return  \Wildgame\Http\Response
      */
-    public function withCode(int $code) : Response {
-        // Add code here
+    public function withCode(int $code) : Response
+    {
+        $clone = clone $this;
+        $clone->code = $code;
+        return $clone;
     }
 
     /**
@@ -78,8 +111,11 @@ class Response {
      *
      * @return  \Wildgame\Http\Response
      */
-    public function withType(string $type) : Request {
-        // Add code here
+    public function withType(string $type) : Request
+    {
+        $clone = clone $this;
+        $clone->setType($type);
+        return $clone;
     }
 
     /**

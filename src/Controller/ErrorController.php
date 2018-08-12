@@ -8,7 +8,7 @@ use Wildgame\Http\Response;
 use Wildgame\Utility\Container;
 
 /**
- * Controller for all simple displaying pages.
+ * Controller for all error pages.
  *
  * @author      Lisa Saalfrank <lisa.saalfrank@web.de>
  * @copyright   2018 Lisa Saalfrank
