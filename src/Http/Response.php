@@ -14,7 +14,7 @@ class Response {
     /**
      * @var string
      */
-    private $protocol = 'HTTP/1.1';
+    private $protocol = 'HTTP/1.0';
 
     /**
      * @var array
@@ -55,6 +55,36 @@ class Response {
      */
     public function __construct(int $code) {
         $this->code = $code;
+    }
+
+    /**
+     * Creates a default Response with the server protocol with the code 200,
+     * the content type text/html and an empty body.
+     *
+     * @return  \Wildgame\Http\Response
+     */
+    public static function createDefaultHtml() : Response
+    {
+        $default = new static(200);
+
+        // If no server protocol is set, set to the safe default of HTTP/1.0
+        $protocol = isset($_SERVER['SERVER_PROTOCOL']) ?
+            $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0';
+
+        $default->setProtocol($protocol);
+        $default->setType('html');
+        $default->setTextBody('');
+
+        return $default;
+    }
+
+    /**
+     * @param   string  $protocol
+     *
+     * @return  void
+     */
+    public function setProtocol(string $protocol) {
+        $this->protocol = $protocol;
     }
 
     /**
@@ -182,9 +212,20 @@ class Response {
     }
 
     /**
+     * Returns the (encoded) Response body as a string.
+     *
      * @return  string
      */
     public function getBody() : string {
         return $this->body;
+    }
+
+    /**
+     * Returns the decoded JSON body as a PHP array.
+     *
+     * @return  array
+     */
+    public function getRawJsonBody() : array {
+        return json_decode($this->body);
     }
 }
