@@ -76,8 +76,11 @@ class Request {
      *
      * @return  \Wildgame\Http\Request
      */
-    public function withMethod(string $method) : Request {
-        // Add code here
+    public function withMethod(string $method) : Request
+    {
+        $clone = clone $this;
+        $clone->method = $method;
+        return $clone;
     }
 
     /**
