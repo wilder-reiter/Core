@@ -133,7 +133,7 @@ class Request {
 
     /**
      * Returns the original URI object instead of the URI string.
-     * For retrieving just the string use Request::uri().
+     * For retrieving just the string use Request::getPath().
      *
      * @return  \Wildgame\Http\Uri
      */
@@ -174,12 +174,12 @@ class Request {
     }
 
     /**
-     * Returns the Request URI (e.g. '/horse/training/1') as a string
+     * Returns the Request path (e.g. '/horse/training/1') as a string
      *
      * @return  string
      */
-    public function uri() : string {
-        // Add code here
+    public function getPath() : string {
+        return $this->uri->getPath();
     }
 
     /**
