@@ -88,8 +88,11 @@ class Request {
      *
      * @return  \Wildgame\Http\Request
      */
-    public function withAjax(bool $ajax) : Request {
-        // Add code here
+    public function withAjax(bool $ajax) : Request
+    {
+        $clone = clone $this;
+        $clone->ajax = $ajax;
+        return $clone;
     }
 
     /**
@@ -97,8 +100,11 @@ class Request {
      *
      * @return  \Wildgame\Http\Request
      */
-    public function withUri(Uri $uri) : Request {
-        // Add code here
+    public function withUri(Uri $uri) : Request
+    {
+        $clone = clone $this;
+        $clone->uri = $uri;
+        return $clone;
     }
 
     /**
@@ -106,8 +112,11 @@ class Request {
      *
      * @return  \Wildgame\Http\Request
      */
-    public function withInput(Input $input) : Request {
-        // Add code here
+    public function withInput(Input $input) : Request
+    {
+        $clone = clone $this;
+        $clone->input = $input;
+        return $clone;
     }
 
     /**
@@ -115,8 +124,11 @@ class Request {
      *
      * @return  \Wildgame\Http\Request
      */
-    public function withSession(Session $session) : Request {
-        // Add code here
+    public function withSession(Session $session) : Request
+    {
+        $clone = clone $this;
+        $clone->session = $session;
+        return $clone;
     }
 
     /**
