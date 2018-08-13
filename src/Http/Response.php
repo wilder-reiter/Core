@@ -143,7 +143,7 @@ class Response {
      *
      * @return  \Wildgame\Http\Response
      */
-    public function withType(string $type) : Request
+    public function withType(string $type) : Response
     {
         $clone = clone $this;
         $clone->setType($type);
@@ -155,7 +155,7 @@ class Response {
      *
      * @return  \Wildgame\Http\Response
      */
-    public function withTextBody(string $body) : Request
+    public function withTextBody(string $body) : Response
     {
         $clone = clone $this;
         $clone->setTextBody($body);
@@ -167,7 +167,7 @@ class Response {
      *
      * @return  \Wildgame\Http\Response
      */
-    public function withJsonBody(array $body) : Request
+    public function withJsonBody(array $body) : Response
     {
         $clone = clone $this;
         $clone->setJsonBody($body);
