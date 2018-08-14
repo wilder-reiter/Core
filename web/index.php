@@ -66,20 +66,7 @@ $app->notFoundError('ErrorController@notFoundError');
  * Registering of routes
  * -------------------------------------------------------------------------- */
 
-// Home page
 $app->get('/', 'PagesController@showHome');
-
-// Guest pages
-$app->get('/preview', 'PagesController@showPreview');
-$app->get('/support', 'PagesController@showSupport');
-$app->get('/news', 'PagesController@showNews');
-
-// Footer pages
-$app->get('/privacy', 'PagesController@showPrivacy');
-$app->get('/rules', 'PagesController@showRules');
-$app->get('/about', 'PagesController@showAbout');
-$app->get('/contact', 'PagesController@showContact');
-$app->get('/legal', 'PagesController@showLegal');
 
 /* -----------------------------------------------------------------------------
  * Dispatching

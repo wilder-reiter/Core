@@ -59,7 +59,7 @@ class Response {
 
     /**
      * Creates a default Response with the server protocol with the code 200,
-     * the content type text/html and an empty body.
+     * the content type text/html and an empty body. (Factory)
      *
      * @return  \Wildgame\Http\Response
      */

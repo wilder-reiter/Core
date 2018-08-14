@@ -44,6 +44,13 @@ class Uri {
     }
 
     /**
+     * @return  \Wildgame\Http\Uri
+     */
+    public static function createFromServer() : Uri {
+        // Add code here
+    }
+
+    /**
      * @param   string  $scheme
      *
      * @return  void
@@ -101,6 +108,9 @@ class Uri {
     }
 
     /**
+     * Returns the scheme part of the HTTP URI without a trailing double dott
+     * and slashes, e.g. 'https' in 'https://www.example.com/horse/training/1/'.
+     *
      * @return  string
      */
     public function getScheme() : string {
@@ -108,6 +118,9 @@ class Uri {
     }
 
     /**
+     * Returns the path part of the HTTP URI without a trailing slash, e.g.
+     * 'www.example.com' in 'https://www.example.com/horse/training/1/'.
+     *
      * @return  string
      */
     public function getHost() : string {
@@ -115,6 +128,9 @@ class Uri {
     }
 
     /**
+     * Returns the path part of the HTTP URI without a trailing slash, e.g.
+     * '/horse/training/1' in 'https://www.example.com/horse/training/1/'.
+     *
      * @return  string
      */
     public function getPath() : string {
@@ -122,6 +138,9 @@ class Uri {
     }
 
     /**
+     * Returns all the split URI path segments without the seperating slashes.
+     * 'horse/training/1' will return 0 => 'horse', 1 => 'training' => 2 => '1'.
+     *
      * @return  array
      */
     public function getPathSegments() : array {
@@ -129,6 +148,9 @@ class Uri {
     }
 
     /**
+     * Returns a single URI path segment by its position key. The key 1 will
+     * return 'training' for '/horse/training/1'.
+     *
      * @param   int     $key
      *
      * @return  string
