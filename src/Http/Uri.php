@@ -44,10 +44,21 @@ class Uri {
     }
 
     /**
+     * Creates an Uri Object from the environment by use of the global $_SERVER
+     * array.
+     *
      * @return  \Wildgame\Http\Uri
      */
-    public static function createFromServer() : Uri {
-        // Add code here
+    public static function createFromServer() : Uri
+    {
+        // Check for use of SSL to find the schema
+        $secure = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on';
+        $schema = $secure ? 'https' : 'http';
+
+        $host = $_SERVER['HTTP_HOST'];
+        $path = $_SERVER['REQUEST_URI'];
+
+        return new static($schema, $host, $path);
     }
 
     /**

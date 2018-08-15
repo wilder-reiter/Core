@@ -2,10 +2,6 @@
 
 namespace Wildgame\Http;
 
-use Wildgame\Http\Input;
-use Wildgame\Http\Session;
-use Wildgame\Http\Uri;
-
 /**
  * Abstraction layer for HTTP Requests. Stores the relevant data in an easily
  * manipulatable and mockable way without affecting the original Request.
