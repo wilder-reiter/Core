@@ -5,7 +5,7 @@ namespace Wildgame;
 use Wildgame\Http\Request;
 use Wildgame\Http\Response;
 
-use Wildgame\Utility\Container;
+use Wildgame\Container\Container;
 
 /**
  * Receives the HTTP Request data, an empty default HTTP Response and the
@@ -36,7 +36,7 @@ class Wildgame {
     private $response;
 
     /**
-     * @var \Wildgame\Utility\Container
+     * @var \Wildgame\Container\Container
      */
     private $container;
 
@@ -56,9 +56,9 @@ class Wildgame {
     ];
 
     /**
-     * @param   \Wildgame\Http\Request      $request
-     * @param   \Wildgame\Http\Response     $response
-     * @param   \Wildgame\Http\Container    $container
+     * @param   \Wildgame\Http\Request          $request
+     * @param   \Wildgame\Http\Response         $response
+     * @param   \Wildgame\Container\Container   $container
      */
     public function __construct(
         Request $request,

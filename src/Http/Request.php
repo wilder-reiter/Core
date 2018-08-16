@@ -63,8 +63,18 @@ class Request {
      *
      * @return  \Wildgame\Http\Request
      */
-    public static function createFromGlobals() : Request {
-        // Add code here
+    public static function createFromGlobals() : Request
+    {
+        $method = $_SERVER['REQUEST_METHOD'];
+
+        $httpX = $_SERVER['HTTP_X_REUESTED_WITH'] ?? '';
+        $ajax = 'xmlhttprequest' === strtolower($httpX);
+
+        $uri = Uri::createFromServer();
+        $input = new Input($_GET, $_POST);
+        $session = new Session();
+
+        return new static($method, $ajax, $uri, $input, $session);
     }
 
     /**
