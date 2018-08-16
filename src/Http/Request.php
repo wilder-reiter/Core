@@ -204,7 +204,7 @@ class Request {
      * @return  mixed
      */
     public function get(string $name = null, $default = null) {
-        // Add code here
+        $this->input->get($name, $default);
     }
 
     /**
@@ -217,7 +217,7 @@ class Request {
      * @return  mixed
      */
     public function post(string $name = null, $default = null) {
-        // Add code here
+        $this->input->post($name, $default);
     }
 
     /**
@@ -230,6 +230,6 @@ class Request {
      * @return  mixed
      */
     public function session(string $name = null, $default = null) {
-        // Add code here
+        $this->session->get($name, $default);
     }
 }

@@ -113,19 +113,11 @@ class Input {
         string $name = null,
         $default = null
     ) {
-        // Checks, whether a specific value was requested
-        if (isset($name))
-        {
-            // Does the requested value exist?
-            if (isset($this->input[$method][$name]))
-            {
-                // Positive: return the value
-                return $this->input[$method][$name];
-            }
-            // Negative: the default value
-            return $default;
+        // Checks if a specific value was requested. If yes, return it.
+        if (isset($name)) {
+            return $this->input[$method][$name] ?? $default;
         }
-        // return the entire array
+        // Otherwise return the entire array
         return $this->input[$method];
     }
 
