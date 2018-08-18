@@ -5,7 +5,7 @@ use Wildgame\Wildgame;
 use Wildgame\Http\Request;
 use Wildgame\Http\Response;
 
-use Wildgame\Utility\Container;
+use Wildgame\Container\Container;
 
 /**
  * Entry point for every HTTP Request sent to the server.
@@ -19,7 +19,6 @@ use Wildgame\Utility\Container;
  * -------------------------------------------------------------------------- */
 
 spl_autoload_register(function ($class) {
-    $class = substr($class, strlen('Wildgame\\'));
     include __DIR__ .'/../src/' . str_replace('\\', '/', $class) . '.php';
 });
 
@@ -38,15 +37,8 @@ $response = Response::createDefaultHtml();
 
 $container = new Container();
 
-$container->register('PagesController',
-function(Request $req, Response $res, Container $c) {
-    return new \Wildgame\Controller\PagesController($req, $res, $c);
-});
-
-$container->register('ErrorController',
-function(Request $req, Response $res, Container $c) {
-    return new \Wildgame\Controller\ErrorController($req, $res, $c);
-});
+$container->add(\Wildgame\Controller\PagesController::class);
+$container->add(\Wildgame\Controller\ErrorController::class);
 
 /* -----------------------------------------------------------------------------
  * Bootstraping
