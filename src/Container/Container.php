@@ -55,8 +55,17 @@ class Container {
     }
 
     /**
+     * @param   string  $alias
+     *
+     * @return  bool
+     */
+    public function has(string $alias) : bool {
+        return array_key_exists($alias, $this->definitions);
+    }
+
+    /**
      * Create and add a definition as a singleton to the container. The
-     * defenition will be returned as in Container::add().
+     * definition will be returned as in Container::add().
      *
      * @param   string  $alias
      * @param   string  $class
@@ -74,6 +83,15 @@ class Container {
 
     /**
      * @param   string  $alias
+     *
+     * @return  bool
+     */
+    public function hasSingleton(string $alias) : bool {
+        return array_key_exists($alias, $this->singletons);
+    }
+
+    /**
+     * @param   string  $alias
      * @param   array   $args
      *
      * @return  mixed
@@ -81,7 +99,7 @@ class Container {
     public function get(string $alias, array $args = [])
     {
         // If it is a singleton, just return the instance
-        if ($this->isSingleton($alias)) {
+        if ($this->hasSingleton($alias)) {
             return $this->singletons[$alias];
         }
 
@@ -95,23 +113,5 @@ class Container {
         }
 
         return $class;
-    }
-
-    /**
-     * @param   string  $alias
-     *
-     * @return  bool
-     */
-    public function has(string $alias) : bool {
-        return array_key_exists($alias, $this->definitions);
-    }
-
-    /**
-     * @param   string  $alias
-     *
-     * @return  bool
-     */
-    public function isSingleton(string $alias) : bool {
-        return array_key_exists($alias, $this->singletons);
     }
 }
