@@ -228,4 +228,15 @@ class Response {
     public function getRawJsonBody() : array {
         return json_decode($this->body);
     }
+
+    /**
+     * @param   string  $location
+     *
+     * @return  void
+     */
+    public function redirect(string $location)
+    {
+        header("Location: ".$location);
+        exit;
+    }
 }

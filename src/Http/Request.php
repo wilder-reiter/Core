@@ -67,11 +67,21 @@ class Request {
     {
         $method = $_SERVER['REQUEST_METHOD'];
 
-        $httpX = $_SERVER['HTTP_X_REUESTED_WITH'] ?? '';
+        // Support for AJAX Requests
+        $httpX = $_SERVER['HTTP_X_REQUESTED_WITH'] ?? '';
         $ajax = 'xmlhttprequest' === strtolower($httpX);
 
+        // Support for raw JSON-Requests
+        $type = $_SERVER["CONTENT_TYPE"] ?? '';
+        $json = [];
+
+        // Decode JSON Input to PHP associative array
+        if(strcasecmp(trim($type), 'application/json') == 0) {
+            $json = json_decode(trim(file_get_contents("php://input")), true);
+        }
+
         $uri = Uri::createFromServer();
-        $input = new Input($_GET, $_POST);
+        $input = new Input($_GET, $_POST, $json);
         $session = new Session();
 
         return new static($method, $ajax, $uri, $input, $session);
@@ -204,7 +214,7 @@ class Request {
      * @return  mixed
      */
     public function get(string $name = null, $default = null) {
-        $this->input->get($name, $default);
+        return $this->input->get($name, $default);
     }
 
     /**
@@ -217,7 +227,20 @@ class Request {
      * @return  mixed
      */
     public function post(string $name = null, $default = null) {
-        $this->input->post($name, $default);
+        return $this->input->post($name, $default);
+    }
+
+    /**
+     * Equivalent of the Request::post() method in raw JSON input sent via
+     * AJAX POST Requests.
+     *
+     * @param   string  $name
+     * @param   mixed   $default
+     *
+     * @return  mixed
+     */
+    public function json(string $name = null, $default = null) {
+        return $this->input->json($name, $default);
     }
 
     /**
@@ -230,6 +253,6 @@ class Request {
      * @return  mixed
      */
     public function session(string $name = null, $default = null) {
-        $this->session->get($name, $default);
+        return $this->session->get($name, $default);
     }
 }

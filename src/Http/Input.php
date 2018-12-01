@@ -21,10 +21,14 @@ class Input {
      * @param   array   $get
      * @param   array   $post
      */
-    public function __construct(array $get = [], array $post = [])
-    {
+    public function __construct(
+        array $get = [],
+        array $post = [],
+        array $json = []
+    ) {
         $this->input['get'] = $get;
         $this->input['post'] = $post;
+        $this->input['json'] = $json;
     }
 
     /**
@@ -48,6 +52,18 @@ class Input {
     {
         $clone = clone $this;
         $clone->input['post'] = $post;
+        return $clone;
+    }
+
+    /**
+     * @param   array   $json
+     *
+     * @return  \Wildgame\Http\Input
+     */
+    public function withJson(array $json) : Input
+    {
+        $clone = clone $this;
+        $clone->input['json'] = $json;
         return $clone;
     }
 
@@ -79,6 +95,19 @@ class Input {
 
     /**
      * @param   string  $key
+     * @param   mixed   $value
+     *
+     * @return  \Wildgame\Http\Input
+     */
+    public function withAddedJson(string $key, $value) : Input
+    {
+        $clone = clone $this;
+        $clone->input['json'][$key] = $value;
+        return $clone;
+    }
+
+    /**
+     * @param   string  $key
      *
      * @return  \Wildgame\Http\Input
      */
@@ -98,6 +127,18 @@ class Input {
     {
         $clone = clone $this;
         unset($clone->input['post'][$key]);
+        return $clone;
+    }
+
+    /**
+     * @param   string  $key
+     *
+     * @return  \Wildgame\Http\Input
+     */
+    public function withoutJson(string $key) : Input
+    {
+        $clone = clone $this;
+        unset($clone->input['json'][$key]);
         return $clone;
     }
 
@@ -139,5 +180,15 @@ class Input {
      */
     public function post(string $name = null, $default = null) {
         return $this->input('post', $name, $default);
+    }
+
+    /**
+     * @param   string  $name
+     * @param   mixed   $default
+     *
+     * @return  mixed
+     */
+    public function json(string $name = null, $default = null) {
+        return $this->input('json', $name, $default);
     }
 }

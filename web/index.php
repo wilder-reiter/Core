@@ -37,28 +37,29 @@ $response = Response::createDefaultHtml();
 
 $container = new Container();
 
-$container->add(\Wildgame\Controller\PagesController::class);
-$container->add(\Wildgame\Controller\ErrorController::class);
+$container->add(\Equidea\Controller\PagesController::class);
+$container->add(\Equidea\Controller\ErrorController::class);
 
 /* -----------------------------------------------------------------------------
  * Bootstraping
  * -------------------------------------------------------------------------- */
 
-// New instance of the Wilder Reiter game master class
+// New instance of the frameworks master class
 $app = new Wildgame($request, $response, $container);
 
-/* -----------------------------------------------------------------------------
- * Route configuration
- * -------------------------------------------------------------------------- */
-
-$app->serverError('ErrorController@serverError');
-$app->notFoundError('ErrorController@notFoundError');
+// Root namespaces for Controllers
+$app->namespace(['controller' => 'Equidea\Controller']);
 
 /* -----------------------------------------------------------------------------
  * Registering of routes
  * -------------------------------------------------------------------------- */
 
+// Index page
 $app->get('/', 'PagesController@showHome');
+
+// Custom 500 Server Error and 404 Not Found pages
+$app->serverError('ErrorController@serverError');
+$app->notFoundError('ErrorController@notFoundError');
 
 /* -----------------------------------------------------------------------------
  * Dispatching

@@ -7,6 +7,9 @@ use Wildgame\Http\Response;
 
 use Wildgame\Container\Container;
 
+use Wildgame\Router\Router;
+use Wildgame\Router\Route;
+
 /**
  * Receives the HTTP Request data, an empty default HTTP Response and the
  * Dependency Injection Container with the required Controllers and all their
@@ -23,7 +26,10 @@ use Wildgame\Container\Container;
  */
 class Wildgame {
 
-    const VERSION = '0.0.1';
+    /**
+     * The current version of the Wildgame framework package.
+     */
+    const VERSION = '1.2.2';
 
     /**
      * @var \Wildgame\Http\Request
@@ -41,18 +47,16 @@ class Wildgame {
     private $container;
 
     /**
-     * @var array
+     * @var \Wildgame\Router\Router
      */
-    private $realms = [];
+    private $router;
 
     /**
      * @var array
      */
-    private $tokens = [
-        ':alpha' => '[A-Za-z]+',
-        ':num' => '[0-9]+',
-        ':alphanum' => '[A-Za-z0-9]+',
-        '' => '[0-9]+'
+    private $namespaces = [
+        'controller' => 'Wildgame\Controller',
+        'middleware' => 'Wildgame\Middleware'
     ];
 
     /**
@@ -68,38 +72,35 @@ class Wildgame {
         $this->request = $request;
         $this->response = $response;
         $this->container = $container;
+        $this->router = new Router($request, $response, $container);
     }
 
     /**
-     * Realms are variables for common route patterns (e.g. 'horse' in
-     * '/horse/training/1', '/horse/profil/1'). These variables will be added
-     * to the route pattern instead of hardcoding it into the system.
+     * Overwrites the custom namespaces for Controllers and Middleware. Default
+     * is set to \Wildgame\Controller and \Wildgame\Middleware. The config must
+     * be provided as an associative array with the keys 'controller' and
+     * 'middleware'.
      *
-     * Example: '[horse]/training/{id}', '[horse]/training/{id}'
-     *
-     * @param   string  $name
-     * @param   string  $pattern
+     * @param   array   $namespaces
      *
      * @return  void
      */
-    public function realm(string $name, string $pattern) {
-        $this->realms[$name] = $pattern;
+    public function namespaces(array $namespaces) {
+        $this->namespaces = $namespaces;
     }
 
     /**
-     * Adds or modifies route parameter tokens. Parameter tokens are flags for
-     * checking a parameter against a regular expression. The flag will be added
-     * after the parameter name with a ':'.
+     * Registers middleware to the router by aliasing it.
      *
-     * Example: '[horse]/training/{id:num}'
-     *
-     * @param   string  $name
-     * @param   string  $expression
+     * @param   string  $alias
+     * @param   string  $action
      *
      * @return  void
      */
-    public function token(string $name, string $expression) {
-        $this->tokens[$name] = $expression;
+    public function middleware(string $alias, string $action)
+    {
+        $action = $this->namespaces['middleware'] . '\\' . $action;
+        $this->router->addMiddleware($alias, $action);
     }
 
     /**
@@ -108,10 +109,10 @@ class Wildgame {
      * @param   string  $pattern
      * @param   string  $action
      *
-     * @return  void
+     * @return  \Wildgame\Router\Route
      */
-    public function get(string $pattern, string $action) {
-        // Add code here
+    public function get(string $pattern, string $action) : Route {
+        return $this->addRoute($pattern, $action, 'GET');
     }
 
     /**
@@ -120,10 +121,10 @@ class Wildgame {
      * @param   string  $pattern
      * @param   string  $action
      *
-     * @return  void
+     * @return  \Wildgame\Router\Route
      */
-    public function post(string $pattern, string $action) {
-        // Add code here
+    public function post(string $pattern, string $action) : Route {
+        return $this->addRoute($pattern, $action, 'POST');
     }
 
     /**
@@ -134,22 +135,14 @@ class Wildgame {
      * @param   string  $action
      * @param   string  $method
      *
-     * @return  void
+     * @return  \Wildgame\Router\Route
      */
-    public function ajax(string $pattern, string $action, string $method) {
-        // Add code here
-    }
-
-    /**
-     * Defines the action to be taken in case the matching Controller did
-     * return an invalid HTTP Response or an 500 Internal Server Error.
-     *
-     * @param   string  $action
-     *
-     * @return  void
-     */
-    public function serverError(string $action) {
-        // Add code here
+    public function ajax(
+        string $pattern,
+        string $action,
+        string $method
+    ) : Route {
+        return $this->addRoute($pattern, $action, $method, true);
     }
 
     /**
@@ -160,8 +153,34 @@ class Wildgame {
      *
      * @return  void
      */
-    public function notFoundError(string $action) {
-        // Add code here
+    public function notFound(string $action)
+    {
+        $action = $this->namespaces['controller'] . '\\' . $action;
+        $this->router->addNotFound($action);
+    }
+
+    /**
+     * Creates a new Route and adds it to the Router.
+     *
+     * @param   string  $pattern
+     * @param   string  $action
+     * @param   string  $method
+     * @param   bool    $ajax
+     *
+     * @return  \Wildgame\Router\Route
+     */
+    private function addRoute(
+        string $pattern,
+        string $action,
+        string $method,
+        bool $ajax = false
+    ) : Route {
+        // Add the controller namespace to the action before adding it
+        $action = $this->namespaces['controller'] . '\\' . $action;
+        $route = new Route($pattern, $action, $method, $ajax);
+
+        $this->router->addRoute($route);
+        return $route;
     }
 
     /**
@@ -170,8 +189,19 @@ class Wildgame {
      *
      * @return  void
      */
-    public function respond() {
-        // Add code here
+    public function respond()
+    {
+        // Get the Response object from the controller
+        $response = $this->getResponse();
+
+        $protocol = $response->getProtocol();
+        $code = $response->getCode();
+        $message = $response->getMessage();
+
+        // Translate the response and send it to the client
+        header($protocol . ' ' . $code . ' ' . $message);
+        header('Content-Type: ' . $response->getType());
+        echo $response->getBody();
     }
 
     /**
@@ -180,6 +210,6 @@ class Wildgame {
      * @return  \Wildgame\Http\Response
      */
     public function getResponse() : Response {
-        // Add code here
+        return $this->router->dispatch();
     }
 }

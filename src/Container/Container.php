@@ -2,6 +2,8 @@
 
 namespace Wildgame\Container;
 
+use ReflectionClass;
+
 /**
  * Small dependency injection container.
  *
@@ -21,13 +23,26 @@ class Container {
     protected $singletons = [];
 
     /**
-     * Declare the class itself as a singleton. This is necessary for injecting
+     * @var bool
+     */
+    protected $autoresolve;
+
+    /**
+     * Defines whether dependencies should be resolved automatically and
+     * declares the class itself as a singleton. This is necessary for injecting
      * the container into other classes via the class constructor.
+     *
+     * If autoresolve is set to true, every class that needs to be loaded via
+     * Dependency Injection and which has any non-class dependencies must still
+     * be declared manually.
+     *
+     * @param   bool    $autoresolve
      *
      * @return  void
      */
-    public function __construct()
+    public function __construct(bool $autoresolve = true)
     {
+        $this->autoresolve = $autoresolve;
         $this->definitions[Container::class]['singleton'] = true;
         $this->singletons[Container::class] = $this;
     }
@@ -51,7 +66,7 @@ class Container {
         $this->definitions[$alias]['definition'] = $definition;
 
         // Return the definition, so that it can be modified afterwards
-        return $this->definition[$alias];
+        return $definition;
     }
 
     /**
@@ -82,6 +97,21 @@ class Container {
     }
 
     /**
+     * Add an already instantiated class to the singleton array. As the class
+     * can no longer be modyfied through definitions, nothing will be returned.
+     *
+     * @param   string  $alias
+     * @param   object  $class
+     *
+     * @return  void
+     */
+    public function append(string $alias, object $class)
+    {
+        $this->definitions[$alias]['singleton'] = true;
+        $this->singletons[$alias] = $class;
+    }
+
+    /**
      * @param   string  $alias
      *
      * @return  bool
@@ -92,19 +122,23 @@ class Container {
 
     /**
      * @param   string  $alias
-     * @param   array   $args
      *
      * @return  mixed
      */
-    public function get(string $alias, array $args = [])
+    public function get(string $alias)
     {
         // If it is a singleton, just return the instance
         if ($this->hasSingleton($alias)) {
             return $this->singletons[$alias];
         }
 
+        // If no definition was provided, build it manually
+        if ($this->has($alias) === false && $this->autoresolve === true) {
+            $this->buildDefinition($alias);
+        }
+
         // Otherwise create a new instance of the newly created instance
-        $class = $this->definitions[$alias]['definition']($args);
+        $class = $this->definitions[$alias]['definition']();
         $singleton = $this->definitions[$alias]['singleton'] ?? false;
 
         // If the instance created is a singleton, add it to the array
@@ -113,5 +147,31 @@ class Container {
         }
 
         return $class;
+    }
+
+    /**
+     * Resolve a classes dependencies and set Definitions automatically.
+     *
+     * @param   string  $alias
+     *
+     * @return  void
+     */
+    private function buildDefinition(string $alias)
+    {
+        $definition = $this->add($alias);
+
+        // Get the constructor parameters
+        $reflector = new ReflectionClass($alias);
+        $construct = $reflector->getConstructor();
+        
+        $parameters = [];
+        if ($construct !== null) {
+            $parameters = $construct->getParameters();
+        }
+
+        foreach ($parameters as $parameter) {
+            $dependency = $parameter->getClass()->getName();
+            $definition->needs($dependency);
+        }
     }
 }
