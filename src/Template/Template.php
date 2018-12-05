@@ -5,6 +5,7 @@ namespace Wildgame\Template;
 /**
  * Replaces placeholders in a given string with the concrete values.
  * Allows comments that will be deleted from the string after rendering.
+ * Also implements conditional printing of values.
  *
  * @author      Lisa Saalfrank <lisa.saalfrank@web.de>
  * @copyright   2018 Lisa Saalfrank
@@ -17,6 +18,11 @@ class Template {
     private $comment = "#\{\{\*\}\}.+\{\{\/\*\}\}#";
 
     /**
+     * @var string
+     */
+    private $conditional = "#\{\?[a-z]+\?\}#";
+
+    /**
      * @param   string  $string
      * @param   array   $params
      *
@@ -26,6 +32,9 @@ class Template {
     {
         // Deletions from the string. First be done *first*
         $string = $this->deleteComments($string);
+
+        // Higher tier tag handling (who can contain variables)
+        $string = $this->renderConditionals($string, $params);
 
         // Simple variable printing. Must be done *last*
         $string = $this->renderVars($string, $params);
@@ -43,11 +52,48 @@ class Template {
      *
      * @return  string
      */
-    private function renderVars(string $string, array $params) : string
+    public function renderVars(string $string, array $params) : string
     {
         foreach ($params as $key => $value) {
             $string = str_replace('{{'.$key.'}}', $value, $string);
         }
+        return $string;
+    }
+
+    /**
+     * Searches for conditionals. If the condition is true, the brackets
+     * surrounding the conditional are removed only. If it is false, the block
+     * will be removed entirely.
+     * Condition tags look like: {?condition?} Text {{var}} {?/condition?}
+     *
+     * @param   string  $string
+     * @param   array   $params
+     *
+     * @return  string
+     */
+    private function renderConditionals(string $string, array $params) : string
+    {
+        // Find conditionals and their status. Put them into an array.
+        $conditionals = [];
+        preg_match_all($this->conditional, $string, $conditionals);
+
+        // Loop through conditionals.
+        foreach ($conditionals[0] as $condition)
+        {
+            // Clean conditional for checking
+            $cleaned = str_replace(['?', '{', '}'], '', $condition);
+
+            // Remove tags on true tags and on false entire block.
+            if ($params[$cleaned] === true)
+            {
+                $tags = [$condition, '{?/'.$cleaned.'?}'];
+                $string = str_replace($tags, '', $string);
+            } else {
+                $regex = '#\{\?'.$cleaned.'\?\}.+\{\?\/'.$cleaned.'\?\}#';
+                $string = preg_replace($regex, '', $string);
+            }
+        }
+
         return $string;
     }
 
