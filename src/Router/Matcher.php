@@ -90,6 +90,6 @@ class Matcher {
         // Checks if the Route pattern matches the Request URI
         $regex = $this->parse($route->getPattern());
         $uri = '/' . trim($this->request->getPath(), '/');
-        return preg_match($regex, $uri);
+        return (bool) preg_match($regex, $uri);
     }
 }
