@@ -12,6 +12,10 @@ namespace Wildgame\Template;
  */
 class Template {
 
+    private $variable = "\{\{[a-z]+\}\}";
+    private $comment = "\{\{\*\}\}.+\{\{\/\*\}\}";
+    private $conditional = "\{\{[a-z]+\?[a-z]+\}\}";
+
     /**
      * @param   string  $string
      * @param   array   $params
@@ -40,8 +44,8 @@ class Template {
      *
      * @return  string
      */
-    private renderVars(string $string, array $params) : string {
-        // Add code here
+    private function renderVars(string $string, array $params) : string {
+        return $string;
     }
 
     /**
@@ -54,8 +58,8 @@ class Template {
      *
      * @return  string
      */
-    private renderConditionals(string $string, array $params) : string {
-        // Add code here
+    private function renderConditionals(string $string, array $params) : string {
+        return $string;
     }
 
     /**
@@ -67,6 +71,6 @@ class Template {
      * @return  string
      */
     private function deleteComments(string $string) : string {
-        // Add code here
+        return preg_replace('#'.$this->comment.'#', '', $string);
     }
 }
