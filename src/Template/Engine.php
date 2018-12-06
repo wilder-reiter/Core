@@ -59,14 +59,16 @@ class Engine extends Template {
      */
     private function prerenderFile(string $file) : string
     {
+        // Load requested file
+        $string = file_get_contents($path);
         // Find inserted template occurances.
         $files = [];
         preg_match_all($this->insertion, $string, $files);
 
-        foreach ($files[0] as $file)
+        foreach ($files[0] as $template)
         {
             // Clean conditional for checking
-            $cleaned = str_replace(['@', '{', '}'], '', $file);
+            $cleaned = str_replace(['@', '{', '}'], '', $template);
 
             // Get the file content to insert
             $path = $this->path . $cleaned . $this->extension;
