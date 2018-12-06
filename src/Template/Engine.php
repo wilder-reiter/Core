@@ -73,6 +73,9 @@ class Engine extends Template {
     }
 
     /**
+     * Searches for insertion tags and replaces them with requested
+     * subtemplates. Insertion tags look like: {@filename}.
+     *
      * @param   string  $file
      *
      * @return  string
