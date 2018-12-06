@@ -97,7 +97,7 @@ class Engine extends Template {
             $path = $this->path.$cleaned.$this->extension;
             $content = file_get_contents($path);
 
-            $string = str_replace('{@'.$cleaned.'?}', $content, $string);
+            $string = str_replace('{@'.$cleaned.'}', $content, $string);
         }
 
         return $string;
