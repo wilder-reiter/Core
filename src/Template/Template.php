@@ -15,12 +15,12 @@ class Template {
     /**
      * @var string
      */
-    private $comment = "#\{\{\*\}\}.+\{\{\/\*\}\}#";
+    protected $comment = "#\{\{\*\}\}.+\{\{\/\*\}\}#";
 
     /**
      * @var string
      */
-    private $conditional = "#\{\?[a-z]+\?\}#";
+    protected $conditional = "#\{\?[a-z]+\?\}#";
 
     /**
      * @param   string  $string
@@ -28,7 +28,7 @@ class Template {
      *
      * @return  string
      */
-    public function render(string $string, array $params) : string
+    public function renderString(string $string, array $params) : string
     {
         // Deletions from the string. First be done *first*
         $string = $this->deleteComments($string);
@@ -105,7 +105,7 @@ class Template {
      *
      * @return  string
      */
-    private function deleteComments(string $string) : string {
+    protected function deleteComments(string $string) : string {
         return preg_replace($this->comment, '', $string);
     }
 }
