@@ -30,9 +30,6 @@ class Template {
      */
     public function renderString(string $string, array $params) : string
     {
-        // Deletions from the string. First be done *first*
-        $string = $this->deleteComments($string);
-
         // Higher tier tag handling (who can contain variables)
         $string = $this->renderConditionals($string, $params);
 
@@ -105,7 +102,7 @@ class Template {
      *
      * @return  string
      */
-    protected function deleteComments(string $string) : string {
+    public function deleteComments(string $string) : string {
         return preg_replace($this->comment, '', $string);
     }
 }
