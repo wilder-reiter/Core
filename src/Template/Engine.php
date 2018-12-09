@@ -32,6 +32,11 @@ class Engine extends Template {
     private $cache;
 
     /**
+     * @var bool
+     */
+    private $caching = false;
+
+    /**
      * @param   string  $path
      * @param   string  $extension
      * @param   string  $cache
@@ -47,6 +52,18 @@ class Engine extends Template {
     }
 
     /**
+     * Enables or disables caching of prerendered template files. Should be disabled
+     * during development to avoid clearing the cache after every change to templates.
+     *
+     * @param   bool    $caching
+     *
+     * @return  void
+     */
+    public function setCaching(bool $caching) {
+        $this->caching = $caching;
+    }
+
+    /**
      * @param   string  $file
      * @param   array   $params
      *
@@ -57,16 +74,19 @@ class Engine extends Template {
         $cachePath = $this->cache.$file.$this->extension;
 
         // If file in cache, load cached file
-        if (file_exists($cachePath)) {
+        if (file_exists($cachePath) && $this->caching) {
             $string = file_get_contents($cachePath);
         // Otherwise prerender the template and save it to the cache
         } else {
             $string = $this->prerenderFile($file);
             $string = $this->deleteComments($string);
 
-            file_put_contents($cachePath, $string);
+            // Only safe prerendered file if caching is enabled
+            if ($this->caching) {
+                file_put_contents($cachePath, $string);
+            }
         }
-
+        
         // Render the template vars and tags
         $string = $this->renderString($string, $params);
         return $string;
