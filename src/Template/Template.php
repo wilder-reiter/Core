@@ -35,6 +35,7 @@ class Template {
 
         // Simple variable printing. Must be done *last*
         $string = $this->renderVars($string, $params);
+        $string = $this->renderArrays($string, $params);
 
         return $string;
     }
@@ -54,6 +55,20 @@ class Template {
         foreach ($params as $key => $value) {
             $string = str_replace('{{'.$key.'}}', $value, $string);
         }
+        return $string;
+    }
+
+    /**
+     * Searches for array tags and replaces them with the concrete values
+     * by key and provided by the $params array.
+     * Array tags have the following syntax: {{array.key}}.
+     *
+     * @param   string  $string
+     * @param   array   $params
+     *
+     * @return  string
+     */
+    public function renderArrays(string $string, array $params) : string {
         return $string;
     }
 

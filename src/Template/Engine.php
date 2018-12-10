@@ -52,8 +52,9 @@ class Engine extends Template {
     }
 
     /**
-     * Enables or disables caching of prerendered template files. Should be disabled
-     * during development to avoid clearing the cache after every change to templates.
+     * Enables or disables caching of prerendered template files. Should be
+     * disabled during development to avoid clearing the cache after every
+     * change to templates.
      *
      * @param   bool    $caching
      *
@@ -86,7 +87,7 @@ class Engine extends Template {
                 file_put_contents($cachePath, $string);
             }
         }
-        
+
         // Render the template vars and tags
         $string = $this->renderString($string, $params);
         return $string;
