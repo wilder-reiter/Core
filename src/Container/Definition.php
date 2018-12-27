@@ -7,7 +7,7 @@ namespace Wildgame\Container;
  * injected Container, it instantiates the class and resolves its dependencies.
  *
  * @author      Lisa Saalfrank <lisa.saalfrank@web.de>
- * @copyright   2018 Lisa Saalfrank
+ * @copyright   2018-2019 Lisa Saalfrank
  */
 class Definition {
 

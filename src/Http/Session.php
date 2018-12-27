@@ -7,7 +7,7 @@ namespace Wildgame\Http;
  * manipulates the global array disectly, in mockup mode an internal array.
  *
  * @author      Lisa Saalfrank <lisa.saalfrank@web.de>
- * @copyright   2018 Lisa Saalfrank
+ * @copyright   2018-2019 Lisa Saalfrank
  */
 class Session {
 

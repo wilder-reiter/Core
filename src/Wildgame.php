@@ -22,7 +22,7 @@ use Wildgame\Router\Route;
  * the Controller or send a fallback HTTP Response in case of an error.
  *
  * @author      Lisa Saalfrank <lisa.saalfrank@web.de>
- * @copyright   2018 Lisa Saalfrank
+ * @copyright   2018-2019 Lisa Saalfrank
  */
 class Wildgame {
 
@@ -30,6 +30,10 @@ class Wildgame {
      * The current version of the Wildgame framework package.
      */
     const VERSION = '1.2.2';
+
+    const MAJOR_VERSION = 1;
+    const MINOR_VERSION = 2;
+    const RELEASE_VERSION = 2;
 
     /**
      * @var \Wildgame\Http\Request

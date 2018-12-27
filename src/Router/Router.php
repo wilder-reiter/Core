@@ -9,7 +9,7 @@ use Wildgame\Container\Container;
 
 /**
  * @author      Lisa Saalfrank <lisa.saalfrank@web.de>
- * @copyright   2018 Lisa Saalfrank
+ * @copyright   2018-2019 Lisa Saalfrank
  */
 class Router {
 

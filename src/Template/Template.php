@@ -8,7 +8,7 @@ namespace Wildgame\Template;
  * Also implements conditional printing of values.
  *
  * @author      Lisa Saalfrank <lisa.saalfrank@web.de>
- * @copyright   2018 Lisa Saalfrank
+ * @copyright   2018-2019 Lisa Saalfrank
  */
 class Template {
 

@@ -7,7 +7,7 @@ namespace Wildgame\Http;
  * host (www.website.com) and path (/realm/page).
  *
  * @author      Lisa Saalfrank <lisa.saalfrank@web.de>
- * @copyright   2018 Lisa Saalfrank
+ * @copyright   2018-2019 Lisa Saalfrank
  */
 class Uri {
 

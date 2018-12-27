@@ -9,7 +9,7 @@ use Wildgame\Http\Request;
  * where matches, otherwise it will always return false.
  *
  * @author      Lisa Saalfrank <lisa.saalfrank@web.de>
- * @copyright   2018 Lisa Saalfrank
+ * @copyright   2018-2019 Lisa Saalfrank
  */
 class Matcher {
 

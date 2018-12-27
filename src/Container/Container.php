@@ -8,7 +8,7 @@ use ReflectionClass;
  * Small dependency injection container.
  *
  * @author      Lisa Saalfrank <lisa.saalfrank@web.de>
- * @copyright   2018 Lisa Saalfrank
+ * @copyright   2018-2019 Lisa Saalfrank
  */
 class Container {
 
