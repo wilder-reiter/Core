@@ -7,7 +7,7 @@ namespace Wildgame\Http;
  * both manipulatable and flexible.
  *
  * @author      Lisa Saalfrank <lisa.saalfrank@web.de>
- * @copyright   2018-2019 Lisa Saalfrank
+ * @copyright   2018-2020 Lisa Saalfrank
  */
 class Response {
 

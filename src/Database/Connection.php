@@ -6,7 +6,7 @@ namespace Wildgame\Database;
  * Wrapper for an active database connection
  *
  * @author      Lisa Saalfrank <lisa.saalfrank@web.de>
- * @copyright   2018-2019 Lisa Saalfrank
+ * @copyright   2018-2020 Lisa Saalfrank
  */
 class Connection {
 

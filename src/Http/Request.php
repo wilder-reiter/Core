@@ -7,7 +7,7 @@ namespace Wildgame\Http;
  * manipulatable and mockable way without affecting the original Request.
  *
  * @author      Lisa Saalfrank <lisa.saalfrank@web.de>
- * @copyright   2018-2019 Lisa Saalfrank
+ * @copyright   2018-2020 Lisa Saalfrank
  */
 class Request {
 

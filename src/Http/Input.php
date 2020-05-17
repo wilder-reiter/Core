@@ -8,7 +8,7 @@ namespace Wildgame\Http;
  * removing elements without changing the original Request.
  *
  * @author      Lisa Saalfrank <lisa.saalfrank@web.de>
- * @copyright   2018-2019 Lisa Saalfrank
+ * @copyright   2018-2020 Lisa Saalfrank
  */
 class Input {
 
